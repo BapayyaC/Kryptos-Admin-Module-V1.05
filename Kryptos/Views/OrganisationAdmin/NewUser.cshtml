@@ -1,0 +1,332 @@
+﻿@model IEnumerable<Kryptos.Models.UserLoginInformation>
+@using System.Configuration
+@{
+    ViewBag.Title = "NewUser";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div id="popup1"></div>
+
+<div class="page-container">
+    <div class="page-content-wrapper">
+
+        <div class="page-content">
+            <div class="container-fluid">
+                <div class="portlet box blue">
+                    <div class="row" id="ListRow">
+                        <div class="col-md-12">
+                            <div class="panel panel-default">
+
+                                <div class="panel-heading">
+                                    <a href="#">Manage User </a> > Users List
+                                    <button type="button" id="btnCreate" class="btn btn-warning pull-right" style="padding: 2px; margin-top: -3px;" onclick="CreateNewRecord()" style="margin:10px;">Create New User</button>
+                                </div>
+                                <div class="panel-body">
+                                    <div class="row" style="padding-left: 15px; padding-right: 15px; ">
+
+                                        <div class="row" style="padding-left: 15px; padding-right: 15px; ">
+                                            <table class="table table-bordered" id="usertable">
+                                                <thead>
+                                                    <tr>
+                                                        <th width="80px">User Pic</th>
+                                                        <th width="100px">Username</th>
+                                                        <th>Email ID </th>
+                                                        <th width="100px">Contact No. </th>
+                                                        <th width="100px">Organization</th>
+                                                        <th width="100px">User Role</th>
+                                                        <th class="stat">Status</th>
+                                                        <th width="60px">Date of Registration</th>
+                                                        <th width="40px">Activation Date</th>
+                                                        <th width="40px">Deactivated Date</th>
+                                                        <th width="250px">Actions</th>
+                                                    </tr>
+                                                </thead>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div id="notes" class="col-md-2"></div>
+                    </div>
+
+                    <div class="row" id="EditRow">
+                        <div class="col-md-2"></div>
+                        <div class="col-md-12">
+                            <div class="panel panel-default">
+                                <div class="panel-heading"><a href="#" onclick="cancelClicked();">Manage User</a> &gt;<span id="sp1"></span> User</div>
+                                <div class="panel-body">
+                                    <div class="row">
+                                        <div class="content">
+                                            <form class="login-form" id="UsersForm" method="post">
+                                                <div class="col-md-12">
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label class="control-label visible-ie8 visible-ie9">Title</label>
+                                                            <span class="compulsory">*</span>
+                                                            <a href="#" data-toggle="tooltip" title="Select Job Title of the user" tabindex="-1" style="float:right"><i class="fa fa-question-circle fa-lg"></i></a>
+                                                            <div class="input-icon">
+                                                                <select class="form-control" id="ddlTitle" name="Title"></select>
+                                                            </div>
+                                                        </div>
+
+                                                        @*<div class="form-group">*@
+                                                        <div class="form-group">
+                                                            <label class="control-label visible-ie8 visible-ie9" id="lblFirstName">First Name <span class="compulsory">*</span></label>
+                                                            <a href="#" data-toggle="tooltip" title="Enter First Name" tabindex="-1" style="float:right"><i class="fa fa-question-circle fa-lg"></i></a>
+                                                            <div class="input-icon">
+                                                                <input class="form-control placeholder-no-fix" type="text" placeholder="" id="txtFirstName" name="FirstName">
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label class="control-label visible-ie8 visible-ie9">Last Name <span class="compulsory">*</span></label>
+                                                            <a href="#" data-toggle="tooltip" title="Enter Last Name" tabindex="-1" style="float:right"><i class="fa fa-question-circle fa-lg"></i></a>
+                                                            <div class="input-icon">
+                                                                <input class="form-control placeholder-no-fix" type="text" placeholder="" id="txtLastName" name="LastName">
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label class="control-label visible-ie8 visible-ie9">Email Id <span class="compulsory">*</span></label>
+                                                            <a href="#" data-toggle="tooltip" title="Enter user Email Id" tabindex="-1" style="float:right"><i class="fa fa-question-circle fa-lg"></i></a>
+                                                            <div class="input-icon">
+                                                                <input class="form-control placeholder-no-fix" type="text" placeholder="" id="txtEmail" name="EmailId">
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label class="control-label visible-ie8 visible-ie9" id="lblContactNumber">Contact No <span class="compulsory">*</span></label>
+                                                            <a href="#" data-toggle="tooltip" title="Enter user Contact No" tabindex="-1" style="float:right"><i class="fa fa-question-circle fa-lg"></i></a>
+                                                            <div class="input-icon">
+                                                                <input class="form-control placeholder-no-fix" type="text" placeholder="" id="txtContactNumber" name="ContactNumber" onkeypress="return isNumberKey(event)">
+                                                            </div>
+                                                        </div>
+
+
+
+
+                                                        <div class="form-group">
+                                                            <label class="control-label visible-ie8 visible-ie9">About User </label>
+                                                            <a href="#" data-toggle="tooltip" title="Enter description about User" tabindex="-1" style="float:right"><i class="fa fa-question-circle fa-lg"></i></a>
+                                                            <div class="input-icon">
+                                                                <textarea rows="5" class="form-control placeholder-no-fix" placeholder="" id="AboutUser" name="AboutUser"></textarea>
+                                                            </div>
+                                                        </div>
+
+                                                        @*<div class="form-group">
+                                                                <label class="control-label visible-ie8 visible-ie9"> Profile <span class="compulsory">*</span></label>
+                                                                <div class="input-icon">
+                                                                    <input type="file" id="file_Uploader" />
+                                                                </div>
+                                                            </div>*@
+
+                                                        @*</div>*@
+
+                                                    </div>
+                                                    <div class="col-md-4">
+
+
+
+                                                        <div class="form-group">
+                                                            <label class="control-label visible-ie8 visible-ie9">Zip Code <span class="compulsory">*</span></label>
+                                                            <a href="#" data-toggle="tooltip" title="Enter Zipcode" tabindex="-1" style="float:right"><i class="fa fa-question-circle fa-lg"></i></a>
+                                                            <div class="input-icon">
+                                                                <input class="form-control placeholder-no-fix" type="text" placeholder="" id="txtZipCode" name="ZipCode">
+                                                            </div>
+                                                        </div>
+
+
+                                                        <div class="form-group">
+                                                            <label class="control-label visible-ie8 visible-ie9">City <span class="compulsory"></span></label>
+                                                            <a href="#" data-toggle="tooltip" title="City name populated automatically based on Zipcode selection" tabindex="-1" style="float:right"><i class="fa fa-question-circle fa-lg"></i></a>
+                                                            <div class="input-icon">
+                                                                <input class="form-control placeholder-no-fix" type="text" placeholder="" id="txtCity" readonly="readonly" name="City">
+                                                            </div>
+                                                        </div>
+
+
+                                                        <div class="form-group">
+                                                            <label class="control-label visible-ie8 visible-ie9">State <span class="compulsory"></span></label>
+                                                            <a href="#" data-toggle="tooltip" title="State name populated automatically based on Zipcode selection" tabindex="-1" style="float:right"><i class="fa fa-question-circle fa-lg"></i></a>
+                                                            <div class="input-icon">
+                                                                <input class="form-control placeholder-no-fix" type="text" placeholder="" id="txtState" readonly="readonly" name="State">
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label class="control-label visible-ie8 visible-ie9">Country <span class="compulsory"></span></label>
+                                                            <a href="#" data-toggle="tooltip" title="Country name populated automatically based on Zipcode selection" tabindex="-1" style="float:right"><i class="fa fa-question-circle fa-lg"></i></a>
+                                                            <div class="input-icon">
+                                                                <input class="form-control placeholder-no-fix" type="text" placeholder="" id="txtCountry" readonly="readonly" name="Country">
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label class="control-label visible-ie8 visible-ie9">Address </label>
+                                                            <a href="#" data-toggle="tooltip" title="Enter Address of the user" tabindex="-1" style="float:right"><i class="fa fa-question-circle fa-lg"></i></a>
+                                                            <div class="input-icon">
+                                                                <input class="form-control placeholder-no-fix" type="text" placeholder="" id="txtAddress" name="Address">
+                                                            </div>
+                                                        </div>
+
+
+
+
+
+
+                                                        <div class="form-group">
+                                                            <label class="control-label visible-ie8 visible-ie9"> Organizations <span class="compulsory">*</span></label>
+                                                            <a href="#" data-toggle="tooltip" title="Select the organizations of the  user" tabindex="-1" style="float: right"><i class="fa fa-question-circle fa-lg"></i></a>
+                                                            <div class="input-icon">
+                                                                <select class="form-control placeholder-no-fix" id="Organisationslistbox" multiple="multiple" name="Organisations"></select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="control-label visible-ie8 visible-ie9"> Primary Facility <span class="compulsory">*</span></label>
+                                                            <a href="#" data-toggle="tooltip" title="Select Primary facility of user" tabindex="-1" style="float: right"><i class="fa fa-question-circle fa-lg"></i></a>
+                                                            <div class="input-icon">
+                                                                <select class="form-control placeholder-no-fix selectpicker" id="ddlPrimaryFacility" data-size="5" name="PrimaryFacility"></select>
+                                                            </div>
+                                                        </div>
+
+
+
+                                                    </div>
+
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label class="control-label visible-ie8 visible-ie9"></label>
+                                                            <div class="input-icon checkbox">
+                                                                <label class="control-label">
+                                                                    <input type="checkbox" id="chkIsSuperAdmin" name="IsSuperAdmin" onclick="return false">
+                                                                    <span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>
+                                                                    <b>Super Admin</b>
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="control-label visible-ie8 visible-ie9"></label>
+                                                            <div class="input-icon checkbox">
+                                                                <label class="control-label">
+                                                                    <input type="checkbox" id="chkIsOrgAdmin" name="IsOrgAdmin" onclick="return false">
+                                                                    <span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>
+                                                                    <b>Organization Admin</b>
+                                                                </label>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label class="control-label visible-ie8 visible-ie9"></label>
+                                                            <div class="input-icon checkbox">
+                                                                <label class="control-label">
+                                                                    <input type="checkbox" id="chkIsFacilityAdmin" name="IsFacilityAdmin" onclick="return false">
+                                                                    <span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>
+                                                                    <b>Facility Admin</b>
+                                                                </label>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label class="control-label visible-ie8 visible-ie9"></label>
+                                                            <div class="input-icon checkbox">
+                                                                <label class="control-label">
+                                                                    <input type="checkbox" id="chkIsNormalUser" name="IsActive" onclick="return false" checked="checked">
+                                                                    <span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>
+                                                                    <b>Normal User</b>
+                                                                </label>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label class="control-label visible-ie8 visible-ie9"></label>
+                                                            <div class="input-icon checkbox">
+                                                                <label class="control-label">
+                                                                    <input type="checkbox" id="chkIsActive" name="IsActive">
+                                                                    <span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>
+                                                                    <b>Activate User</b>
+                                                                </label>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+
+                                                    <div class="col-md-8 pull-right" id="usersTreeListHolder">
+
+                                                        <div class="form-group">
+                                                            <label class="control-label visible-ie8 visible-ie9">Other Facilities <span class="compulsory"></span></label>
+                                                            <a href="#" data-toggle="tooltip" title="Enter Other Facilities" tabindex="-1" style="float:right"><i class="fa fa-question-circle fa-lg"></i></a>
+                                                            <div class="row">
+                                                                <div class="col-md-5">
+                                                                    <label class="control-label visible-ie8 visible-ie9" style="vertical-align:middle;">Facility Selection <span class="compulsory"></span></label>
+                                                                    <br />
+                                                                    <div class="" style="border:1px solid black;">
+                                                                        <input type="text" class="form-control" id="input-search" name="SourceTreeviewSearch" placeholder="Type to search..." value="">
+
+                                                                        <div id="default-tree" style="height: 400px; overflow: scroll;"></div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-2 vcenter" style="height: 400px;">
+                                                                    <div class="row">
+                                                                        <div class="col-md-12 padding-10">
+                                                                            <a href="#" id="updateSelections" tabindex="-1" class="btn btn-block btn-sm btn-info">Update List <span class="glyphicon glyphicon-refresh"></span></a>
+                                                                        </div>
+                                                                        <div class="col-md-12 padding-10">
+                                                                            <a href="#" id="SelectAll" class="btn btn-block btn-sm btn-success">Select All <span class="glyphicon glyphicon-ok"></span></a>
+                                                                        </div>
+                                                                        <div class="col-md-12 padding-10">
+                                                                            <a href="#" id="deSelectAll" class="btn btn-block btn-sm btn-danger">De-Select All <span class="glyphicon glyphicon-remove"></span></a>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-5">
+                                                                    <label class="control-label visible-ie8 visible-ie9"> Selected Facilities <span class="compulsory"></span></label>
+                                                                    <br />
+                                                                    <div class="" style="border:1px solid black;">
+                                                                        <input type="text" class="form-control" id="result-input-search" name="DestinationTreeviewSearch" placeholder="Type to search..." />
+
+                                                                        <div id="result-tree" style="height: 400px; overflow: scroll;"></div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+
+                                                    <div class="col-md-12 input-icon text-right">
+                                                        <button type="button" id="btnCancel" class="btn btn-default" style="margin-right: 5px;" onclick="cancelClicked()">Cancel</button>
+                                                        <button type="button" id="btnSubmit" class="btn btn-primary" onclick="submitClicked()">Submit</button>
+                                                    </div>
+                                                </div>
+
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-2"></div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row" id="popupdiv" style="display: none; padding-left: 30px; padding-right: 30px;">
+    <div class="form-group">
+
+        <label class="control-label visible-ie8 visible-ie9">Are you sure want to delete ? </label>
+
+        <div id="errordiv">
+            <label id="lblOTP" style="color:red;font-weight:300;margin-top:5px;"> </label>
+        </div>
+        <input id="Hidden1" type="hidden" />
+        <button type="button" id="DeleteConform" class="btn btn-primary" style="margin-top:20px;float:right;" onclick="Delete(Hidden1.value);">Yes</button>&nbsp;&nbsp;
+        <button type="button" id="Not_Conform" class="btn btn-default" style="margin-top:20px;float:right;" onclick="NotDelete();">No</button>
+    </div>
+</div>
